@@ -31,4 +31,21 @@ public class NoteController {
 
         return noteService.getNotes(email);
     }
+    @PutMapping("/pin/{id}")
+    public String togglePin(@PathVariable Long id, Authentication auth) {
+        String email = (String) auth.getPrincipal();
+        return noteService.togglePin(id, email);
+    }
+
+    @PutMapping("/archive/{id}")
+    public String toggleArchive(@PathVariable Long id, Authentication auth) {
+        String email = (String) auth.getPrincipal();
+        return noteService.toggleArchive(id, email);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteNote(@PathVariable Long id, Authentication auth) {
+        String email = (String) auth.getPrincipal();
+        return noteService.deleteNote(id, email);
+    }
 }

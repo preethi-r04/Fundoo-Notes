@@ -17,7 +17,6 @@ public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
     private final UserRepository userRepository;
-
     @Override
     public String createNote(NoteRequest request, String email) {
 
@@ -33,13 +32,68 @@ public class NoteServiceImpl implements NoteService {
 
         return "Note Created Successfully ✅";
     }
-
     @Override
     public List<Note> getNotes(String email) {
-
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return noteRepository.findByUserId(user.getId());
+    }
+
+    @Override
+    public String togglePin(Long noteId, String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+
+        if (!note.getUserId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        note.setPinned(!note.isPinned());
+        noteRepository.save(note);
+
+        return "Pin toggled ✅";
+    }
+
+    @Override
+    public String toggleArchive(Long noteId, String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+
+        if (!note.getUserId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        note.setArchived(!note.isArchived());
+        noteRepository.save(note);
+
+        return "Archive toggled ✅";
+    }
+
+    @Override
+    public String deleteNote(Long noteId, String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+
+        if (!note.getUserId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        note.setDeleted(true);
+        noteRepository.save(note);
+
+        return "Note deleted ✅";
     }
 }
