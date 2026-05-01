@@ -9,6 +9,8 @@ import com.fundoo.notes.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
@@ -30,5 +32,14 @@ public class NoteServiceImpl implements NoteService {
         noteRepository.save(note);
 
         return "Note Created Successfully ✅";
+    }
+
+    @Override
+    public List<Note> getNotes(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return noteRepository.findByUserId(user.getId());
     }
 }
