@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("/")
-    public String test() {
+    public String home() {
         return "Fundoo Notes Backend Running";
+    }
+
+    @GetMapping("/test")
+    public String testApi() {
+        return "SECURED API WORKING ✅";
     }
 }
