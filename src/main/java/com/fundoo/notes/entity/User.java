@@ -1,13 +1,11 @@
 package com.fundoo.notes.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
+@Data
 public class User {
 
     @Id
