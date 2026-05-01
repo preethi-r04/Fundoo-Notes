@@ -1,5 +1,6 @@
 package com.fundoo.notes.controller;
 
+import com.fundoo.notes.dto.LoginRequest;
 import com.fundoo.notes.dto.RegisterRequest;
 import com.fundoo.notes.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +16,9 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
         return userService.register(request);
+    }
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
 }
